@@ -119,6 +119,137 @@ If you face a merge conflict:
    git log --pretty=format:"%h - %an, %ar : %s"
    ```
 
+
+## Git bisect demo 
+### **Git Bisect Example with Dummy Code and Commands**  
+We will create a repository with 10 commits, simulate an issue, and use `git bisect` to identify the faulty commit.
+
+---
+
+### **Step 1: Initialize the Repository**  
+```sh
+git init git-bisect-demo
+cd git-bisect-demo
+echo "# Git Bisect Demo" > README.md
+git add .
+git commit -m "Initial commit"
+```
+
+---
+
+### **Step 2: Create Dummy Python Code and Make Commits**  
+We will create a Python file (`main.py`) and modify it over 10 commits.
+
+#### **Commit 1: Initial Python Script**
+```python
+# main.py
+def greet():
+    return "Hello, World!"
+
+print(greet())
+```
+```sh
+git add main.py
+git commit -m "Added greet function"
+```
+
+#### **Commit 2: Added Farewell Function**
+```python
+def farewell():
+    return "Goodbye!"
+
+print(farewell())
+```
+```sh
+git add main.py
+git commit -m "Added farewell function"
+```
+
+#### **Commit 3: Introduced a Bug**
+```python
+def greet():
+    return "Hello, World!"
+
+def farewell():
+    return "Goodbye!"
+
+def broken_function():
+    return 1 / 0  # This will cause a ZeroDivisionError
+
+print(broken_function())
+```
+```sh
+git add main.py
+git commit -m "Introduced a bug in broken_function"
+```
+
+#### **Commits 4-10: Other Unrelated Changes**
+```sh
+echo "# Adding more features" >> README.md
+git add README.md
+git commit -m "Updated README with new feature list"
+```
+(Repeat similar small changes to make it 10 commits.)
+
+---
+
+### **Step 3: Start `git bisect`**
+We assume the current (latest) version is broken, but we know an earlier commit was working fine.
+
+#### **Start Bisecting**
+```sh
+git bisect start
+git bisect bad  # Mark the current commit as bad
+git bisect good <commit-hash-of-last-working-commit>  # Replace with an actual commit hash
+```
+
+#### **Git will now checkout a middle commit. Test it:**
+```sh
+python main.py  # Run to check if it's broken
+```
+- If it's broken:  
+  ```sh
+  git bisect bad
+  ```
+- If it works fine:  
+  ```sh
+  git bisect good
+  ```
+
+#### **Repeat Until Git Finds the First Bad Commit**
+Git will automatically keep checking out commits until it finds the one that introduced the bug.
+
+---
+
+### **Step 4: Identify and Fix the Bug**
+Once Git shows:
+```sh
+<commit-hash> is the first bad commit
+```
+We can view the problematic commit:
+```sh
+git show <commit-hash>
+```
+To fix the issue:
+```sh
+git revert <commit-hash>
+```
+Then, push the fix:
+```sh
+git push origin main
+```
+
+---
+
+### **Step 5: Reset Bisect**
+Once finished, reset bisect mode:
+```sh
+git bisect reset
+```
+
+---
+
+
 ## Common Git Commands
 
 | Command                    | Description                                 |
