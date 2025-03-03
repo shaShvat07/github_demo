@@ -121,6 +121,7 @@ If you face a merge conflict:
 
 
 ## Git bisect demo 
+https://docs.google.com/document/d/1wHAso9iMifIcbYDfhojiSKyNZzgSR5wjNs-guhllsP4/edit?usp=sharing
 ### **Git Bisect Example with Dummy Code and Commands**  
 We will create a repository with 10 commits, simulate an issue, and use `git bisect` to identify the faulty commit.
 
