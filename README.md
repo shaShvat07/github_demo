@@ -62,11 +62,23 @@ This creates a hidden `.git` folder that tracks changes in your project.
    ```sh
    git checkout -b feature-branch
    ```
-2. **Switch to an existing branch:**
+2. **Pull the latest changes:**
+   ```sh
+   git pull origin main
+   ```
+3. **Resolve merge conflicts if any and then commit and push the changes**
+   ```sh
+   git add .
+   git commit -m "chore: resolved merge conflicts"
+   git push origin feature-branch
+   ```
+4. **After adding the necessary features, create a PR for the maintainer to review it**
+   
+5. **To switch to an existing branch:**
    ```sh
    git checkout main
    ```
-3. **Merge changes:**
+6. **To merge changes directly considering you are on feature-branch-2, the following statement will simply merge the code from feature-branch into your current branch**
    ```sh
    git merge feature-branch
    ```
